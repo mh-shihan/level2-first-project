@@ -82,14 +82,25 @@ npm install nodemon --save-dev
 
 [Follow This Article to Setup Eslint & Prettier](https://blog.logrocket.com/linting-typescript-eslint-prettier)
 
+## Install ts-node-dev to run TypeScript files directly
+
+```bash
+npm install ts-node-dev --save-dev
+```
+
 ## Update package.json scripts
 
 ```json
 {
   "scripts": {
+    "start:prod": "node ./dist/server.js",
+    "start:dev": "ts-node-dev --respawn --transpile-only src/server.ts",
     "build": "tsc",
     "lint": "eslint --ext .js,.ts .",
-    "lint:fix": "npx eslint src --fix"
+    "lint:fix": "npx eslint src --fix",
+    "prettier": "prettier --ignore-path .gitignore --write \"**/*.+(js|ts|json)\"",
+    "prettier:fix": "npx prettier --write src",
+    "test": "echo \"Error: no test specified\" && exit 1"
   }
 }
 ```
