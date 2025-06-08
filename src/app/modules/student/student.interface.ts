@@ -23,16 +23,16 @@ export type LocalGuardian = {
 export type Student = {
   id: string;
   name: UserName;
-  gender: "male" | "female";
+  gender: 'male' | 'female';
   dateOfBirth?: string;
   email: string;
   contactNo: string;
   emergencyContactNo: string;
   presentAddress: string;
   permanentAddress: string;
-  bloodGroup?: "A+" | "A-" | "B+" | "B-" | "AB+" | "AB-" | "O+" | "O-";
+  bloodGroup?: 'A+' | 'A-' | 'B+' | 'B-' | 'AB+' | 'AB-' | 'O+' | 'O-';
   guardian: Guardian;
   localGuardian: LocalGuardian;
   profileImage?: string;
-  isActive: "active" | "blocked";
+  isActive: 'active' | 'blocked';
 };
