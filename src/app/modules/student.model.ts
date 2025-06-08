@@ -1,10 +1,10 @@
-import { Schema, model } from "mongoose";
+import { Schema, model } from 'mongoose';
 import {
   Guardian,
   LocalGuardian,
   Student,
   UserName,
-} from "./student/student.interface";
+} from './student/student.interface';
 
 const userNameSchema = new Schema<UserName>({
   firstName: { type: String, required: true },
@@ -28,21 +28,36 @@ const localGuardianSchema = new Schema<LocalGuardian>({
   address: { type: String, required: true },
 });
 
-const studentSchema = new Schema<Student>({
-  id: String,
-  name: userNameSchema,
-  gender: ["male", "female"],
-  dateOfBirth: { type: String },
-  email: { type: String, required: true },
-  contactNo: { type: String, required: true },
-  emergencyContactNo: { type: String, required: true },
-  presentAddress: { type: String, required: true },
-  permanentAddress: { type: String, required: true },
-  bloodGroup: ["A+", "A-", "B+", "B-", "AB+", "AB-", "O+", "O-"],
-  guardian: guardianSchema,
-  localGuardian: localGuardianSchema,
-  profileImage: { type: String, required: true },
-  isActive: ["active", "blocked"],
-});
+const studentSchema = new Schema<Student>(
+  {
+    id: { type: String, required: true, unique: true },
+    name: { type: userNameSchema, required: true },
+    gender: {
+      type: String,
+      enum: {
+        values: ['male', 'female'],
+        message: '{VALUE} is not supported',
+      },
+      required: true,
+    },
+    dateOfBirth: { type: String },
+    email: { type: String, required: true, unique: true },
+    contactNo: { type: String, required: true },
+    emergencyContactNo: { type: String, required: true },
+    presentAddress: { type: String, required: true },
+    permanentAddress: { type: String, required: true },
+    bloodGroup: {
+      type: String,
+      enum: ['A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-'],
+    },
+    guardian: { type: guardianSchema, required: true },
+    localGuardian: { type: localGuardianSchema, required: true },
+    profileImage: { type: String },
+    isActive: { type: String, enum: ['active', 'blocked'], default: 'active' },
+  },
+  {
+    timestamps: true, // Optional: adds createdAt and updatedAt
+  },
+);
 
-export const StudentModel = model<Student>("Student", studentSchema);
+export const StudentModel = model<Student>('Student', studentSchema);

@@ -1,16 +1,18 @@
-import { Request, Response } from "express";
-import { StudentServices } from "./student.service";
+import { Request, Response } from 'express';
+import { StudentServices } from './student.service';
 
 const createStudent = async (req: Request, res: Response) => {
   try {
     const { student: studentData } = req.body;
 
     const result = await StudentServices.createStudentIntoDB(studentData);
-    res.status(200).json({
-      success: true,
-      message: "Student is created successfully!",
-      data: result,
-    });
+    if (result) {
+      res.status(200).json({
+        success: true,
+        message: 'Student is created successfully!',
+        data: result,
+      });
+    }
   } catch (error) {
     console.log(error);
   }
@@ -21,7 +23,7 @@ const getAllStudents = async (req: Request, res: Response) => {
     const result = await StudentServices.getAllStudentsFromBD();
     res.status(200).json({
       success: true,
-      message: "Students are retrieved successfully!",
+      message: 'Students are retrieved successfully!',
       data: result,
     });
   } catch (error) {
@@ -35,7 +37,7 @@ const getSingleStudent = async (req: Request, res: Response) => {
     const result = await StudentServices.getSingleStudentFromDB(studentId);
     res.status(200).json({
       success: true,
-      message: "Single student is retrieved successfully!",
+      message: 'Single student is retrieved successfully!',
       data: result,
     });
   } catch (error) {
