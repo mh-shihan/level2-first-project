@@ -7,56 +7,112 @@ import {
 } from './student/student.interface';
 
 const userNameSchema = new Schema<UserName>({
-  firstName: { type: String, required: true },
-  middleName: { type: String, required: true },
-  lastName: { type: String, required: true },
+  firstName: { type: String, required: [true, 'First name is required'] },
+  middleName: { type: String, required: [true, 'Middle name is required'] },
+  lastName: { type: String, required: [true, 'Last name is required'] },
 });
 
 const guardianSchema = new Schema<Guardian>({
-  fatherName: { type: String, required: true },
-  fatherContactNo: { type: String, required: true },
-  fatherDesignation: { type: String, required: true },
-  motherName: { type: String, required: true },
-  motherContactNo: { type: String, required: true },
-  motherDesignation: { type: String, required: true },
+  fatherName: { type: String, required: [true, "Father's name is required"] },
+  fatherContactNo: {
+    type: String,
+    required: [true, "Father's contact number is required"],
+  },
+  fatherDesignation: {
+    type: String,
+    required: [true, "Father's designation is required"],
+  },
+  motherName: { type: String, required: [true, "Mother's name is required"] },
+  motherContactNo: {
+    type: String,
+    required: [true, "Mother's contact number is required"],
+  },
+  motherDesignation: {
+    type: String,
+    required: [true, "Mother's designation is required"],
+  },
 });
 
 const localGuardianSchema = new Schema<LocalGuardian>({
-  name: { type: String, required: true },
-  occupation: { type: String, required: true },
-  contactNo: { type: String, required: true },
-  address: { type: String, required: true },
+  name: { type: String, required: [true, 'Local guardian name is required'] },
+  occupation: {
+    type: String,
+    required: [true, 'Local guardian occupation is required'],
+  },
+  contactNo: {
+    type: String,
+    required: [true, 'Local guardian contact number is required'],
+  },
+  address: {
+    type: String,
+    required: [true, 'Local guardian address is required'],
+  },
 });
 
 const studentSchema = new Schema<Student>(
   {
-    id: { type: String, required: true, unique: true },
-    name: { type: userNameSchema, required: true },
+    id: {
+      type: String,
+      required: [true, 'Student ID is required'],
+      unique: true,
+    },
+    name: {
+      type: userNameSchema,
+      required: [true, 'Student name is required'],
+    },
     gender: {
       type: String,
       enum: {
         values: ['male', 'female'],
-        message: '{VALUE} is not supported',
+        message:
+          '{VALUE} is not supported. Allowed values are "male" or "female"',
       },
-      required: true,
+      required: [true, 'Gender is required'],
     },
     dateOfBirth: { type: String },
-    email: { type: String, required: true, unique: true },
-    contactNo: { type: String, required: true },
-    emergencyContactNo: { type: String, required: true },
-    presentAddress: { type: String, required: true },
-    permanentAddress: { type: String, required: true },
+    email: {
+      type: String,
+      required: [true, 'Email is required'],
+      unique: true,
+    },
+    contactNo: { type: String, required: [true, 'Contact number is required'] },
+    emergencyContactNo: {
+      type: String,
+      required: [true, 'Emergency contact number is required'],
+    },
+    presentAddress: {
+      type: String,
+      required: [true, 'Present address is required'],
+    },
+    permanentAddress: {
+      type: String,
+      required: [true, 'Permanent address is required'],
+    },
     bloodGroup: {
       type: String,
-      enum: ['A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-'],
+      enum: {
+        values: ['A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-'],
+        message:
+          'The blood group you entered is invalid. Please select a valid blood group: A+, A-, B+, B-, AB+, AB-, O+, O-.',
+      },
     },
-    guardian: { type: guardianSchema, required: true },
-    localGuardian: { type: localGuardianSchema, required: true },
+    guardian: {
+      type: guardianSchema,
+      required: [true, 'Guardian information is required'],
+    },
+    localGuardian: {
+      type: localGuardianSchema,
+      required: [true, 'Local guardian information is required'],
+    },
     profileImage: { type: String },
-    isActive: { type: String, enum: ['active', 'blocked'], default: 'active' },
+    isActive: {
+      type: String,
+      enum: ['active', 'blocked'],
+      default: 'active',
+    },
   },
   {
-    timestamps: true, // Optional: adds createdAt and updatedAt
+    timestamps: true,
   },
 );
 
