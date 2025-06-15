@@ -88,7 +88,7 @@ npm install nodemon --save-dev
 npm install ts-node-dev --save-dev
 ```
 
-## Update package.json scripts
+## Update the package.json scripts
 
 ```json
 {
