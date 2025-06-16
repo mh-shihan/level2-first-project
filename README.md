@@ -104,3 +104,4 @@ npm install ts-node-dev --save-dev
   }
 }
 ```
+## Use Joi or Zod for validaiton. Jod is preferred.
