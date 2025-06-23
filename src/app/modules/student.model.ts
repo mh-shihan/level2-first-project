@@ -1,4 +1,4 @@
-import { Schema, model } from 'mongoose';
+import { Query, Schema, model } from 'mongoose';
 import validator from 'validator';
 import {
   StudentModel,
@@ -142,16 +142,27 @@ const studentSchema = new Schema<TStudent, StudentModel>(
       enum: ['active', 'blocked'],
       default: 'active',
     },
+    isDeleted: {
+      type: Boolean,
+      default: false,
+    },
   },
+
   {
+    toJSON: {
+      virtuals: true,
+    },
     timestamps: true,
   },
 );
 
+studentSchema.virtual('fullName').get(function () {
+  return `${this.name.firstName} ${this.name.middleName} ${this.name.lastName}`;
+});
+
 // pre save middleware hook : will work on create function and save function
 studentSchema.pre('save', async function (next) {
   // console.log(this, 'pre hook: we will save the data');
-  // const user = this;
   this.password = await bcrypt.hash(
     this.password,
     Number(config.bcrypt_salt_rounds),
@@ -160,8 +171,30 @@ studentSchema.pre('save', async function (next) {
 });
 
 // Post save middleware hook
-studentSchema.post('save', function () {
-  console.log(this, 'Post hook: we will save the data');
+studentSchema.post('save', function (doc, next) {
+  doc.password = '';
+  next();
+});
+
+// Query middleware
+
+// studentSchema.pre(/^find/, function (this: Query<any, any>, next) {
+//   this.where({ isDeleted: { $ne: true } });
+//   next();
+// });
+
+studentSchema.pre('find', function (next) {
+  this.find({ isDeleted: { $ne: true } });
+  next();
+});
+studentSchema.pre('findOne', function (next) {
+  this.find({ isDeleted: { $ne: true } });
+  next();
+});
+
+studentSchema.pre('aggregate', function (next) {
+  this.pipeline().unshift({ $match: { isDeleted: { $ne: true } } });
+  next();
 });
 
 // Creating a custom static method
