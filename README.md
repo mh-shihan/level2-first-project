@@ -53,9 +53,9 @@ npm install @types/node @types/express @types/cors --save-dev
 Create a `app\config\index.ts` file in the src directory of your project:
 
 ```typescript
-import app from "./app";
-import mongoose from "mongoose";
-import config from "./app/config";
+import app from './app';
+import mongoose from 'mongoose';
+import config from './app/config';
 
 async function main() {
   try {
@@ -104,5 +104,14 @@ npm install ts-node-dev --save-dev
   }
 }
 ```
+
 ## Use the Validator library for string validation.
-## Use Joi or Zod for validaiton. Jod is preferred.
+
+## Use Zod of Joi for validation. Zod is preferred.
+
+## Install Bcrypt for password hashing
+
+```bash
+npm install bcrypt
+npm install -D --save @types/bcrypt
+```
