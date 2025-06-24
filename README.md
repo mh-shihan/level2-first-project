@@ -51,6 +51,18 @@ npm install @types/node @types/express @types/cors --save-dev
 ## Setup dotenv config
 
 Create a `app\config\index.ts` file in the src directory of your project:
+```typescript
+import dotenv from 'dotenv';
+import path from 'path';
+
+dotenv.config({ path: path.join(process.cwd(), '.env') });
+
+export default {
+  port: process.env.PORT,
+  database_url: process.env.DATABASE_URL,
+  bcrypt_salt_rounds: process.env.BCRYPT_SALT_ROUNDS,
+};
+```
 
 ```typescript
 import app from './app';
@@ -78,9 +90,9 @@ main();
 npm install nodemon --save-dev
 ```
 
-## Now Its Time to setup eslint and Prettier
+## Now's time to set up ESLint and Prettier
 
-[Follow This Article to Setup Eslint & Prettier](https://blog.logrocket.com/linting-typescript-eslint-prettier)
+[Follow This Article to Set Up ESLint & Prettier](https://blog.logrocket.com/linting-typescript-eslint-prettier)
 
 ## Install ts-node-dev to run TypeScript files directly
 
