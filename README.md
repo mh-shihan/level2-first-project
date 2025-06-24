@@ -64,6 +64,9 @@ export default {
 };
 ```
 
+## Server Set Up
+
+Create a `\server.ts` file in the src directory of your project:
 ```typescript
 import app from './app';
 import mongoose from 'mongoose';
