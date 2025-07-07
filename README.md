@@ -147,7 +147,7 @@ tsc
   "builds": [
     {
       "src": "dist/server.js",
-      "user": "@vercel/now"
+      "use": "@vercel/now"
     }
   ],
   "routes": [
@@ -158,8 +158,20 @@ tsc
   ]
 }
 ```
-After that, install Vercel
+After that, install Vercel (If already installed, then no need to install
 ```bash
 npm i -g vercel
+```
+Check Vercel version
+```bash
+vercel -v
+```
+For Vercel Login
+```bash
+vercel login
+```
+Now, it's mandatory
+```bash
+vercel --prod
 ```
 #### 2. GitHub
