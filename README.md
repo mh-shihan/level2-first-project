@@ -147,7 +147,7 @@ tsc
   "builds": [
     {
       "src": "dist/server.js",
-      "use": "@vercel/now"
+      "use": "@vercel/node"
     }
   ],
   "routes": [
