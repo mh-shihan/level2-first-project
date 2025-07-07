@@ -141,7 +141,7 @@ or
 tsc
 ```
  Then, create a file at the root called `vercel.json`, write the following code
-```bash
+```json
 {
   "version": 2,
   "builds": [
