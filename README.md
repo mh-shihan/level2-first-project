@@ -130,3 +130,36 @@ npm install ts-node-dev --save-dev
 npm install bcrypt
 npm install -D --save @types/bcrypt
 ```
+
+# Deployment
+##  2 Ways to deploy
+### 1. Vercel CLI
+First, build the project using 
+```bash
+npm run build
+or
+tsc
+```
+ Then, create a file at the root called `vercel.json`, write the following code
+```bash
+{
+  "version": 2,
+  "builds": [
+    {
+      "src": "dist/server.js",
+      "user": "@vercel/now"
+    }
+  ],
+  "routes": [
+    {
+      "src": "/(.*)",
+      "dest": "dist/server.js"
+    }
+  ]
+}
+```
+After that, install Vercel
+```bash
+npm i -g vercel
+```
+#### 2. GitHub
