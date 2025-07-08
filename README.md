@@ -51,7 +51,22 @@ npm install @types/node @types/express @types/cors --save-dev
 ## Setup dotenv config
 
 Create a `app\config\index.ts` file in the src directory of your project:
+```typescript
+import dotenv from 'dotenv';
+import path from 'path';
 
+dotenv.config({ path: path.join(process.cwd(), '.env') });
+
+export default {
+  port: process.env.PORT,
+  database_url: process.env.DATABASE_URL,
+  bcrypt_salt_rounds: process.env.BCRYPT_SALT_ROUNDS,
+};
+```
+
+## Server Set Up
+
+Create a `\server.ts` file in the src directory of your project:
 ```typescript
 import app from './app';
 import mongoose from 'mongoose';
@@ -78,9 +93,9 @@ main();
 npm install nodemon --save-dev
 ```
 
-## Now Its Time to setup eslint and Prettier
+## Now's time to set up ESLint and Prettier
 
-[Follow This Article to Setup Eslint & Prettier](https://blog.logrocket.com/linting-typescript-eslint-prettier)
+[Follow This Article to Set Up ESLint & Prettier](https://blog.logrocket.com/linting-typescript-eslint-prettier)
 
 ## Install ts-node-dev to run TypeScript files directly
 
@@ -115,3 +130,48 @@ npm install ts-node-dev --save-dev
 npm install bcrypt
 npm install -D --save @types/bcrypt
 ```
+
+# Deployment
+##  2 Ways to deploy
+### 1. Vercel CLI
+First, build the project using 
+```bash
+npm run build
+or
+tsc
+```
+ Then, create a file at the root called `vercel.json`, write the following code
+```json
+{
+  "version": 2,
+  "builds": [
+    {
+      "src": "dist/server.js",
+      "use": "@vercel/node"
+    }
+  ],
+  "routes": [
+    {
+      "src": "/(.*)",
+      "dest": "dist/server.js"
+    }
+  ]
+}
+```
+After that, install Vercel (If already installed, then no need to install
+```bash
+npm i -g vercel
+```
+Check Vercel version
+```bash
+vercel -v
+```
+For Vercel Login
+```bash
+vercel login
+```
+Now, it's mandatory
+```bash
+vercel --prod
+```
+#### 2. GitHub
