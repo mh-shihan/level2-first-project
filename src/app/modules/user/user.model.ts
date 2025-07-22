@@ -8,6 +8,7 @@ const userSchema = new Schema<TUser>(
     id: {
       type: String,
       required: true,
+      unique: [true, 'ID is duplicate'],
     },
     password: {
       type: String,

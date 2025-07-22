@@ -75,7 +75,7 @@ const studentSchema = new Schema<TStudent, StudentModel>(
     id: {
       type: String,
       required: [true, 'Student ID is required'],
-      unique: true,
+      unique: [true, 'ID is duplicate'],
     },
     user: {
       type: Schema.Types.ObjectId,
@@ -99,14 +99,18 @@ const studentSchema = new Schema<TStudent, StudentModel>(
     dateOfBirth: { type: Date },
     email: {
       type: String,
-      required: [true, 'Email is required'],
       unique: true,
+      required: [true, 'Email is required'],
       validate: {
         validator: (value: string) => validator.isEmail(value),
         message: '{VALUE} is not in email format.',
       },
     },
-    contactNo: { type: String, required: [true, 'Contact number is required'] },
+    contactNo: {
+      type: String,
+      required: [true, 'Contact number is required'],
+      unique: true,
+    },
     emergencyContactNo: {
       type: String,
       required: [true, 'Emergency contact number is required'],
@@ -136,6 +140,10 @@ const studentSchema = new Schema<TStudent, StudentModel>(
       required: [true, 'Local guardian information is required'],
     },
     profileImage: { type: String },
+    admissionSemester: {
+      type: Schema.Types.ObjectId,
+      ref: 'AcademicSemester',
+    },
     isDeleted: {
       type: Boolean,
       default: false,
