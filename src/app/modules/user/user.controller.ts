@@ -8,14 +8,12 @@ const createStudent = catchAsync(async (req, res) => {
 
   const result = await UserServices.createStudentIntoDB(password, studentData);
 
-  if (result) {
-    sendResponse(res, {
-      statusCode: status.OK,
-      success: true,
-      message: 'Student is created successfully!',
-      data: result,
-    });
-  }
+  sendResponse(res, {
+    statusCode: status.OK,
+    success: true,
+    message: 'Student is created successfully!',
+    data: result,
+  });
 });
 
 export const UserControllers = {
