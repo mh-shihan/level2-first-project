@@ -45,8 +45,19 @@ academicSemesterSchema.pre('save', async function (next) {
   });
 
   if (isSemesterExists) {
-    throw new Error('Semester is already exit!');
+    throw new Error(`${this.name} is already exit!`);
   }
+  next();
+});
+
+academicSemesterSchema.pre('findOneAndUpdate', async function (next) {
+  const query = this.getQuery();
+  const isDepartmentExit = await AcademicSemester.findOne(query);
+
+  if (!isDepartmentExit) {
+    throw new Error('This Semester does not exists!');
+  }
+
   next();
 });
 
