@@ -18,6 +18,11 @@ const getAllAcademicSemesterFromDB = async () => {
 
 const getSingleAcademicSemesterFromDB = async (id: string) => {
   const result = await AcademicSemester.findById(id);
+
+  if (!result) {
+    throw new Error(`Academic Semester with ID ${id} not found`);
+  }
+
   return result;
 };
 
