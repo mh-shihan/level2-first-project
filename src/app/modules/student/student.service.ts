@@ -1,6 +1,8 @@
 import status from 'http-status';
 import AppError from '../../errors/AppError';
 import { Student } from './student.model';
+import mongoose from 'mongoose';
+import { User } from '../user/user.model';
 
 const getAllStudentsFromBD = async () => {
   const result = await Student.find()
@@ -16,7 +18,7 @@ const getAllStudentsFromBD = async () => {
 };
 
 const getSingleStudentFromDB = async (id: string) => {
-  const result = await Student.findById(id)
+  const result = await Student.findOne({ id })
     .populate('admissionSemester')
     .populate({
       path: 'academicDepartment',
@@ -33,8 +35,47 @@ const getSingleStudentFromDB = async (id: string) => {
 };
 
 const deleteSingleStudentFromDB = async (id: string) => {
-  const result = await Student.updateOne({ id }, { isDeleted: true });
-  return result;
+  const isStudentExist = await Student.isUserExists(id);
+  if (!isStudentExist) {
+    throw new AppError(status.NOT_FOUND, 'Student Not Found!');
+  }
+  const session = await mongoose.startSession();
+
+  try {
+    session.startTransaction();
+
+    const deletedStudent = await Student.findOneAndUpdate(
+      { id },
+      { isDeleted: true },
+      { new: true, session },
+    );
+
+    if (!deletedStudent) {
+      throw new AppError(
+        status.INTERNAL_SERVER_ERROR,
+        'Failed to delete student',
+      );
+    }
+
+    const deletedUser = await User.findOneAndUpdate(
+      { id },
+      { isDeleted: true },
+      { new: true, session },
+    );
+
+    if (!deletedUser) {
+      throw new AppError(status.INTERNAL_SERVER_ERROR, 'Failed to delete user');
+    }
+
+    await session.commitTransaction();
+    await session.endSession();
+
+    return deletedStudent;
+  } catch (error) {
+    await session.abortTransaction();
+    await session.endSession();
+    throw error;
+  }
 };
 
 export const StudentServices = {
