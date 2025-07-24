@@ -7,6 +7,7 @@ import {
   TStudent,
   TUserName,
 } from './student.interface';
+import checkDuplicate from '../../errors/checkDuplicate';
 
 const userNameSchema = new Schema<TUserName>({
   firstName: {
@@ -178,6 +179,13 @@ studentSchema.pre('findOne', function (next) {
 
 studentSchema.pre('aggregate', function (next) {
   this.pipeline().unshift({ $match: { isDeleted: { $ne: true } } });
+  next();
+});
+
+studentSchema.pre('save', async function (next) {
+  await checkDuplicate(Student, 'email', this.email, 'Student');
+  await checkDuplicate(Student, 'id', this.id, 'Student');
+  await checkDuplicate(Student, 'contactNo', this.contactNo, 'Student');
   next();
 });
 
