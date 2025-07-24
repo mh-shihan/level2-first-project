@@ -1,3 +1,5 @@
+import status from 'http-status';
+import AppError from '../../errors/AppError';
 import { TAcademicFaculty } from './academicFaculty.interface';
 import { AcademicFaculty } from './academicFaculty.model';
 
@@ -15,7 +17,10 @@ const getSingleAcademicFacultyFromDB = async (id: string) => {
   const result = await AcademicFaculty.findById(id);
 
   if (!result) {
-    throw new Error(`Academic Faculty with ID ${id} not found`);
+    throw new AppError(
+      status.NOT_FOUND,
+      `Academic Faculty with ID ${id} Not Found`,
+    );
   }
 
   return result;

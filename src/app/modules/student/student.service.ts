@@ -1,20 +1,32 @@
+import status from 'http-status';
+import AppError from '../../errors/AppError';
 import { Student } from './student.model';
 
 const getAllStudentsFromBD = async () => {
-  // const result = await Student.find();
-  const result = await Student.aggregate([
-    { $sort: { createdAt: -1 } },
-    { $project: { password: 0 } },
-  ]);
+  const result = await Student.find()
+    .populate('admissionSemester')
+    .populate({
+      path: 'academicDepartment',
+      populate: {
+        path: 'academicFaculty',
+      },
+    });
+
   return result;
 };
 
 const getSingleStudentFromDB = async (id: string) => {
-  const result = await Student.findById(id);
-  // const result = await Student.aggregate([{ $match: { id: id } }]);
+  const result = await Student.findById(id)
+    .populate('admissionSemester')
+    .populate({
+      path: 'academicDepartment',
+      populate: {
+        path: 'academicFaculty',
+      },
+    });
 
   if (!result) {
-    throw new Error(`Student with ID ${id} not found`);
+    throw new AppError(status.NOT_FOUND, `Student with ID ${id} not found`);
   }
 
   return result;

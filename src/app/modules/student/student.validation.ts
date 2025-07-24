@@ -70,8 +70,9 @@ const createStudentValidationSchema = z.object({
       bloodGroup: bloodGroupEnum.optional(),
       guardian: guardianValidationSchema,
       localGuardian: localGuardianValidationSchema,
-      profileImage: z.string().optional(),
       admissionSemester: z.string(),
+      academicDepartment: z.string(),
+      profileImage: z.string().optional(),
     }),
   }),
 });
