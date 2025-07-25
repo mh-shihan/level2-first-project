@@ -3,6 +3,8 @@ import AppError from '../../errors/AppError';
 import { Student } from './student.model';
 import mongoose from 'mongoose';
 import { User } from '../user/user.model';
+import { TStudent } from './student.interface';
+import flattenNestedObject from '../../utils/flattenNestedObject';
 
 const getAllStudentsFromBD = async () => {
   const result = await Student.find()
@@ -26,6 +28,29 @@ const getSingleStudentFromDB = async (id: string) => {
         path: 'academicFaculty',
       },
     });
+
+  if (!result) {
+    throw new AppError(status.NOT_FOUND, `Student with ID ${id} not found`);
+  }
+
+  return result;
+};
+
+const updateStudentIntoDB = async (id: string, payload: Partial<TStudent>) => {
+  const { name, guardian, localGuardian, ...remainingStudentData } = payload;
+
+  const modifiedUpdatedData: Record<string, unknown> = {
+    ...remainingStudentData,
+  };
+
+  flattenNestedObject('name', name, modifiedUpdatedData);
+  flattenNestedObject('guardian', guardian, modifiedUpdatedData);
+  flattenNestedObject('localGuardian', localGuardian, modifiedUpdatedData);
+
+  const result = await Student.findOneAndUpdate({ id }, modifiedUpdatedData, {
+    new: true,
+    runValidators: true,
+  });
 
   if (!result) {
     throw new AppError(status.NOT_FOUND, `Student with ID ${id} not found`);
@@ -81,5 +106,6 @@ const deleteSingleStudentFromDB = async (id: string) => {
 export const StudentServices = {
   getAllStudentsFromBD,
   getSingleStudentFromDB,
+  updateStudentIntoDB,
   deleteSingleStudentFromDB,
 };
