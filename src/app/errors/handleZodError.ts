@@ -1,7 +1,7 @@
 import { ZodError } from 'zod/v4';
-import { TZodValidationError } from '../interface/error';
+import { TGenericErrorResponse, TZodValidationError } from '../interface/error';
 
-const handleZodError = (err: ZodError) => {
+const handleZodError = (err: ZodError): TGenericErrorResponse => {
   const parsedErrors = JSON.parse(err.message);
 
   const errors: TZodValidationError[] = parsedErrors;

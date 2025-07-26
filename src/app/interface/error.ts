@@ -9,3 +9,9 @@ export type TZodValidationError = {
   message: string;
   values?: string[];
 };
+
+export type TGenericErrorResponse = {
+  statusCode: number;
+  message: string;
+  errorSources: TErrorSources;
+};
