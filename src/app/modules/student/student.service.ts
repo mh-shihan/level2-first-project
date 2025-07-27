@@ -8,7 +8,7 @@ import flattenNestedObject from '../../utils/flattenNestedObject';
 import QueryBuilder from '../../builder/QueryBuilder';
 import { studentSearchableField } from './student.constant';
 
-const getAllStudentsFromBD = async (query: Record<string, unknown>) => {
+const getAllStudentsFromDB = async (query: Record<string, unknown>) => {
   const studentQuery = new QueryBuilder(
     Student.find()
       .populate('admissionSemester')
@@ -115,7 +115,7 @@ const deleteSingleStudentFromDB = async (id: string) => {
 };
 
 export const StudentServices = {
-  getAllStudentsFromBD,
+  getAllStudentsFromDB,
   getSingleStudentFromDB,
   updateStudentIntoDB,
   deleteSingleStudentFromDB,

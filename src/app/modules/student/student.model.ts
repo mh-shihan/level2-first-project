@@ -12,7 +12,7 @@ import {
   BloodGroup,
   BloodGroupErrorMessage,
   Gender,
-} from '../../constants/module.constant';
+} from '../../constants/model.constant';
 
 const guardianSchema = new Schema<TGuardian>({
   fatherName: { type: String, required: [true, "Father's name is required"] },

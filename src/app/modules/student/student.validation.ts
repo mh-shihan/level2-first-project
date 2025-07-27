@@ -1,25 +1,12 @@
 import { z } from 'zod/v4';
 import {
   bloodGroupEnum,
+  createUserNameValidationSchema,
   genderEnum,
+  updateBloodGroupEnum,
+  updateGenderEnum,
+  updateUserNameValidationSchema,
 } from '../../validationConstants/validation.constant';
-
-// User Name Schema
-const userNameValidationSchema = z.object({
-  firstName: z
-    .string()
-    .max(20, 'First name can not be more than 20 characters')
-    .refine((val) => val.charAt(0) === val.charAt(0).toUpperCase(), {
-      message: 'First name must start with a capital letter',
-    }),
-  middleName: z.string().nonempty('Middle name is required'),
-  lastName: z
-    .string()
-    .nonempty('Last name is required')
-    .refine((val) => /^[A-Za-z]+$/.test(val), {
-      message: 'Last name must contain only alphabet characters',
-    }),
-});
 
 // Guardian Schema
 const guardianValidationSchema = z.object({
@@ -37,24 +24,6 @@ const localGuardianValidationSchema = z.object({
   occupation: z.string().nonempty('Local guardian occupation is required'),
   contactNo: z.string().nonempty('Local guardian contact number is required'),
   address: z.string().nonempty('Local guardian address is required'),
-});
-
-// Update User Name Schema (all fields optional)
-const updateUserNameValidationSchema = z.object({
-  firstName: z
-    .string()
-    .max(20, 'First name can not be more than 20 characters')
-    .refine((val) => val.charAt(0) === val.charAt(0).toUpperCase(), {
-      message: 'First name must start with a capital letter',
-    })
-    .optional(),
-  middleName: z.string().optional(),
-  lastName: z
-    .string()
-    .refine((val) => /^[A-Za-z]+$/.test(val), {
-      message: 'Last name must contain only alphabet characters',
-    })
-    .optional(),
 });
 
 // Update Guardian Schema (all fields optional)
@@ -83,7 +52,7 @@ const createStudentValidationSchema = z.object({
       .nonempty()
       .max(20, 'First name can not be more than 20 characters'),
     student: z.object({
-      name: userNameValidationSchema,
+      name: createUserNameValidationSchema,
       gender: genderEnum,
       dateOfBirth: z.string().optional(),
       email: z.email().nonempty('Email is required'),
@@ -108,14 +77,14 @@ const updateStudentValidationSchema = z.object({
     student: z
       .object({
         name: updateUserNameValidationSchema.optional(),
-        gender: genderEnum.optional(),
+        gender: updateGenderEnum.optional(),
         dateOfBirth: z.string().optional(),
         email: z.email().optional(),
         contactNo: z.string().optional(),
         emergencyContactNo: z.string().optional(),
         presentAddress: z.string().optional(),
         permanentAddress: z.string().optional(),
-        bloodGroup: bloodGroupEnum.optional(),
+        bloodGroup: updateBloodGroupEnum.optional(),
         guardian: updateGuardianValidationSchema.optional(),
         localGuardian: updateLocalGuardianValidationSchema.optional(),
         admissionSemester: z.string().optional(),

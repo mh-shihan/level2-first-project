@@ -20,7 +20,10 @@ const userSchema = new Schema<TUser>(
     },
     role: {
       type: String,
-      enum: ['admin', 'student', 'faculty'],
+      enum: {
+        values: ['admin', 'student', 'faculty'],
+        message: '{VALUES} is not a valid role',
+      },
     },
     status: {
       type: String,

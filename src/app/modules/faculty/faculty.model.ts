@@ -1,7 +1,7 @@
 import { model, Schema } from 'mongoose';
 import { FacultyModel, TFaculty } from './faculty.interface';
-import { userNameSchema } from '../../schema';
-import { Gender } from '../../constants/module.constant';
+import { userNameSchema } from '../../schema/module.commonSchema';
+import { Gender } from '../../constants/model.constant';
 
 const facultySchema = new Schema<TFaculty>(
   {

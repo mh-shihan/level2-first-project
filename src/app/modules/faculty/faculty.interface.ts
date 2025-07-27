@@ -21,5 +21,5 @@ export type TFaculty = {
 };
 
 export interface FacultyModel extends Model<TFaculty> {
-  isUserExits(id: string): Promise<TFaculty | null>;
+  isUserExists(id: string): Promise<TFaculty | null>;
 }

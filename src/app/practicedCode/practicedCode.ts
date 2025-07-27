@@ -63,3 +63,20 @@
 
 //   const fieldQuery = await limitQuery.select(fields);
 //   return fieldQuery;
+
+// GET LAST STUDENT ID
+// const findLastStudentId = async () => {
+//   const lastStudent = await User.findOne(
+//     {
+//       role: 'student',
+//     },
+//     {
+//       id: 1,
+//       _id: 0,
+//     },
+//   )
+//     .sort({ createdAt: -1 })
+//     .lean();
+
+//   return lastStudent?.id;
+// };
