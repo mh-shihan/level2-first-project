@@ -1,5 +1,6 @@
 import { Types } from 'mongoose';
-import { TBloodGroup, TGender, TUserName } from '../../interface/module';
+import { TBloodGroup, TGender, TUserName } from '../../interface/modules';
+import { Model } from 'mongoose';
 
 export type TFaculty = {
   id: string;
@@ -19,6 +20,6 @@ export type TFaculty = {
   isDeleted: boolean;
 };
 
-// export interface FacultyModel extends Model<TFaculty>{
-//     isUser
-// }
+export interface FacultyModel extends Model<TFaculty> {
+  isUserExits(id: string): Promise<TFaculty | null>;
+}

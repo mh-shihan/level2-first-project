@@ -1,5 +1,5 @@
 import { Model, Types } from 'mongoose';
-import { TBloodGroup, TGender, TUserName } from '../../interface/module';
+import { TBloodGroup, TGender, TUserName } from '../../interface/modules';
 
 export type TGuardian = {
   fatherName: string;
