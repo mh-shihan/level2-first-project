@@ -8,10 +8,10 @@ import {
   updateUserNameValidationSchema,
 } from '../../validationConstants/validation.constant';
 
-export const createFacultyValidationSchema = z.object({
+export const createAdminValidationSchema = z.object({
   body: z.object({
     password: z.string().max(20),
-    faculty: z.object({
+    admin: z.object({
       designation: z.string(),
       name: createUserNameValidationSchema,
       gender: genderEnum,
@@ -28,9 +28,9 @@ export const createFacultyValidationSchema = z.object({
   }),
 });
 
-export const updateFacultyValidationSchema = z.object({
+export const updateAdminValidationSchema = z.object({
   body: z.object({
-    faculty: z.object({
+    admin: z.object({
       designation: z.string().optional(),
       name: updateUserNameValidationSchema,
       gender: updateGenderEnum,
@@ -47,7 +47,7 @@ export const updateFacultyValidationSchema = z.object({
   }),
 });
 
-export const FacultyValidations = {
-  createFacultyValidationSchema,
-  updateFacultyValidationSchema,
+export const AdminValidations = {
+  createAdminValidationSchema,
+  updateAdminValidationSchema,
 };
