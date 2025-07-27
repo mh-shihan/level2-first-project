@@ -15,8 +15,8 @@ const getAllFaculties = catchAsync(async (req, res) => {
 });
 
 const getSingleFaculty = catchAsync(async (req, res) => {
-  const { FacultyId } = req.params;
-  const result = await FacultyServices.getSingleFacultyFromDB(FacultyId);
+  const { facultyId } = req.params;
+  const result = await FacultyServices.getSingleFacultyFromDB(facultyId);
 
   sendResponse(res, {
     statusCode: status.OK,
@@ -27,10 +27,10 @@ const getSingleFaculty = catchAsync(async (req, res) => {
 });
 
 const updateFaculty = catchAsync(async (req, res) => {
-  const { FacultyId } = req.params;
-  const { Faculty } = req.body;
+  const { facultyId } = req.params;
+  const { faculty } = req.body;
 
-  const result = await FacultyServices.updateFacultyIntoDB(FacultyId, Faculty);
+  const result = await FacultyServices.updateFacultyIntoDB(facultyId, faculty);
 
   sendResponse(res, {
     statusCode: status.OK,
@@ -41,8 +41,8 @@ const updateFaculty = catchAsync(async (req, res) => {
 });
 
 const deleteSingleFaculty = catchAsync(async (req, res) => {
-  const { FacultyId } = req.params;
-  const result = await FacultyServices.deleteSingleFacultyFromDB(FacultyId);
+  const { facultyId } = req.params;
+  const result = await FacultyServices.deleteSingleFacultyFromDB(facultyId);
 
   sendResponse(res, {
     statusCode: status.OK,

@@ -50,7 +50,7 @@ const updateFacultyIntoDB = async (id: string, payload: Partial<TFaculty>) => {
     ...remainingFacultyData,
   };
 
-  flattenNestedObject('name', name, modifiedUpdatedData);
+  console.log(flattenNestedObject('name', name, modifiedUpdatedData));
 
   const result = await Faculty.findOneAndUpdate({ id }, modifiedUpdatedData, {
     new: true,

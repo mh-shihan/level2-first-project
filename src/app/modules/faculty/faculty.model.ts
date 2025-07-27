@@ -74,13 +74,9 @@ const facultySchema = new Schema<TFaculty>(
 
 // Generating Fullname
 facultySchema.virtual('fullName').get(function () {
-  return (
-    this?.name?.firstName +
-    '' +
-    this?.name?.middleName +
-    '' +
-    this?.name?.lastName
-  );
+  return this?.name
+    ? `${this?.name?.firstName} ${this?.name?.middleName} ${this?.name?.lastName}`
+    : null;
 });
 
 // Filter Out deleted documents
