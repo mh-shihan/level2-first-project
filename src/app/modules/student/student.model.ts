@@ -5,9 +5,9 @@ import {
   TGuardian,
   TLocalGuardian,
   TStudent,
-  TUserName,
 } from './student.interface';
 import checkDuplicate from '../../errors/checkDuplicate';
+import { TUserName } from '../../interface/module';
 
 const userNameSchema = new Schema<TUserName>({
   firstName: {
@@ -91,9 +91,9 @@ const studentSchema = new Schema<TStudent, StudentModel>(
     gender: {
       type: String,
       enum: {
-        values: ['male', 'female'],
+        values: ['male', 'female', 'other'],
         message:
-          '{VALUE} is not supported. Allowed values are "male" or "female"',
+          '{VALUE} is not supported. Allowed values are "male", "female", or "other"',
       },
       required: [true, 'Gender is required'],
     },

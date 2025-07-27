@@ -1,18 +1,8 @@
 import { z } from 'zod/v4';
-
-// Enums
-const genderEnum = z.enum(['male', 'female']);
-const bloodGroupEnum = z.enum([
-  'A+',
-  'A-',
-  'B+',
-  'B-',
-  'AB+',
-  'AB-',
-  'O+',
-  'O-',
-]);
-// const statusEnum = z.enum(['active', 'blocked']);
+import {
+  bloodGroupEnum,
+  genderEnum,
+} from '../../validationConstants/validation.constant';
 
 // User Name Schema
 const userNameValidationSchema = z.object({
