@@ -6,7 +6,7 @@ import {
   updateBloodGroupEnum,
   updateGenderEnum,
   updateUserNameValidationSchema,
-} from '../../validationConstants/validation.constant';
+} from '../../constants/validation.constant';
 
 // Guardian Schema
 const guardianValidationSchema = z.object({

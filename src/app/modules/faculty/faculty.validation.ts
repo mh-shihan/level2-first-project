@@ -6,7 +6,7 @@ import {
   updateBloodGroupEnum,
   updateGenderEnum,
   updateUserNameValidationSchema,
-} from '../../validationConstants/validation.constant';
+} from '../../constants/validation.constant';
 
 export const createFacultyValidationSchema = z.object({
   body: z.object({
