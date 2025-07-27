@@ -9,15 +9,7 @@ import mongoose from 'mongoose';
 import { User } from '../user/user.model';
 
 const getAllAdminsFromDB = async (query: Record<string, unknown>) => {
-  const AdminQuery = new QueryBuilder(
-    Admin.find().populate({
-      path: 'academicDepartment',
-      populate: {
-        path: 'academicAdmin',
-      },
-    }),
-    query,
-  )
+  const AdminQuery = new QueryBuilder(Admin.find(), query)
     .search(AdminSearchableFields)
     .filter()
     .sort()
