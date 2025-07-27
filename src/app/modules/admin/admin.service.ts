@@ -21,12 +21,7 @@ const getAllAdminsFromDB = async (query: Record<string, unknown>) => {
 };
 
 const getSingleAdminFromDB = async (id: string) => {
-  const result = await Admin.findOne({ id }).populate({
-    path: 'academicDepartment',
-    populate: {
-      path: 'academicAdmin',
-    },
-  });
+  const result = await Admin.findOne({ id });
 
   if (!result) {
     throw new AppError(status.NOT_FOUND, `Admin with ID ${id} not found`);

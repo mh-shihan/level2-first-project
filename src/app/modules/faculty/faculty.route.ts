@@ -5,8 +5,6 @@ import validateRequest from '../../middlewares/validateRequest';
 
 const router = express.Router();
 
-// router.post('/create-Faculty', FacultyController.createFaculty);
-
 router.get('/', FacultyController.getAllFaculties);
 
 router.get('/:facultyId', FacultyController.getSingleFaculty);
