@@ -21,7 +21,7 @@ const getAllAdminsFromDB = async (query: Record<string, unknown>) => {
 };
 
 const getSingleAdminFromDB = async (id: string) => {
-  const result = await Admin.findOne({ id });
+  const result = await Admin.findById(id);
 
   if (!result) {
     throw new AppError(status.NOT_FOUND, `Admin with ID ${id} not found`);
@@ -39,7 +39,7 @@ const updateAdminIntoDB = async (id: string, payload: Partial<TAdmin>) => {
 
   flattenNestedObject('name', name, modifiedUpdatedData);
 
-  const result = await Admin.findOneAndUpdate({ id }, modifiedUpdatedData, {
+  const result = await Admin.findByIdAndUpdate(id, modifiedUpdatedData, {
     new: true,
     runValidators: true,
   });
@@ -61,8 +61,8 @@ const deleteSingleAdminFromDB = async (id: string) => {
   try {
     session.startTransaction();
 
-    const deletedAdmin = await Admin.findOneAndUpdate(
-      { id },
+    const deletedAdmin = await Admin.findByIdAndUpdate(
+      id,
       { isDeleted: true },
       { new: true, session },
     );
@@ -74,8 +74,11 @@ const deleteSingleAdminFromDB = async (id: string) => {
       );
     }
 
-    const deletedUser = await User.findOneAndUpdate(
-      { id },
+    // Get user_id form deleted faculty
+    const userId = deletedAdmin?.user;
+
+    const deletedUser = await User.findByIdAndUpdate(
+      userId,
       { isDeleted: true },
       { new: true, session },
     );
