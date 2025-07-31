@@ -14,7 +14,10 @@ export type TCourse = {
   isDeleted?: boolean;
 };
 
+export type TFaculty = {
+  faculty: Types.ObjectId;
+};
 export type TCourseFaculty = {
   course: Types.ObjectId;
-  faculties: Types.ObjectId[];
+  faculties: TFaculty[];
 };

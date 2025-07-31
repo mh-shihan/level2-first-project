@@ -5,7 +5,7 @@ import { courseSearchableField } from './course.constant';
 import { Course, CourseFaculty } from './course.model';
 import AppError from '../../errors/AppError';
 import status from 'http-status';
-import { TCourse } from './course.interface';
+import { TCourse, TCourseFaculty } from './course.interface';
 
 const createCourseIntoDB = async (payload: TCourse) => {
   const result = await Course.create(payload);
@@ -133,7 +133,7 @@ const deleteCourseFromDB = async (id: string) => {
 
 const assignFacultiesWithCourseIntoDB = async (
   id: string,
-  faculties: Types.ObjectId[],
+  faculties: string[],
 ) => {
   if (!faculties || faculties.length === 0) {
     throw new AppError(
@@ -177,6 +177,21 @@ const assignFacultiesWithCourseIntoDB = async (
   return result;
 };
 
+const removeFacultiesFromCourseFromDB = async (
+  id: string,
+  payload: Partial<TCourseFaculty>,
+) => {
+  const result = await CourseFaculty.findByIdAndUpdate(
+    id,
+    {
+      $pull: { faculties: { $in: payload } },
+    },
+    { new: true },
+  );
+
+  return result;
+};
+
 export const CourseServices = {
   createCourseIntoDB,
   getAllCoursesFromDB,
@@ -184,4 +199,5 @@ export const CourseServices = {
   updateCourseIntoDB,
   deleteCourseFromDB,
   assignFacultiesWithCourseIntoDB,
+  removeFacultiesFromCourseFromDB,
 };
