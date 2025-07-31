@@ -43,44 +43,48 @@ const createCourseValidationSchema = z.object({
   }),
 });
 
-const updateCourseValidationSchema = z
-  .object({
-    body: z.object({
-      title: z
-        .string({
-          error: 'Course title is required',
-        })
-        .trim()
-        .optional(),
+const updateCourseValidationSchema = z.object({
+  body: z.object({
+    title: z
+      .string({
+        error: 'Course title is required',
+      })
+      .trim()
+      .optional(),
 
-      prefix: z
-        .string({
-          error: 'Course prefix is required',
-        })
-        .trim()
-        .optional(),
+    prefix: z
+      .string({
+        error: 'Course prefix is required',
+      })
+      .trim()
+      .optional(),
 
-      code: z
-        .number({
-          error: 'Course code is required',
-        })
-        .optional(),
+    code: z
+      .number({
+        error: 'Course code is required',
+      })
+      .optional(),
 
-      credits: z
-        .number({
-          error: 'Course credits is required',
-        })
-        .optional(),
+    credits: z
+      .number({
+        error: 'Course credits is required',
+      })
+      .optional(),
 
-      preRequisiteCourses: z
-        .array(updatePreRequisiteCoursesZodSchema)
-        .optional(),
-      isDeleted: z.boolean().optional(),
-    }),
-  })
-  .partial();
+    preRequisiteCourses: z.array(updatePreRequisiteCoursesZodSchema).optional(),
+    isDeleted: z.boolean().optional(),
+  }),
+});
+
+const facultiesWithCourseValidationSchema = z.object({
+  body: z.object({
+    course: z.string().optional(),
+    faculties: z.array(z.string()).optional(),
+  }),
+});
 
 export const CourseValidations = {
   createCourseValidationSchema,
   updateCourseValidationSchema,
+  facultiesWithCourseValidationSchema,
 };

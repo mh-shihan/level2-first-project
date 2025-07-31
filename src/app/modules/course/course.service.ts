@@ -1,11 +1,11 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import mongoose from 'mongoose';
+import mongoose, { Types } from 'mongoose';
 import QueryBuilder from '../../builder/QueryBuilder';
 import { courseSearchableField } from './course.constant';
-import { TCourse } from './course.interface';
-import { Course } from './course.model';
+import { Course, CourseFaculty } from './course.model';
 import AppError from '../../errors/AppError';
 import status from 'http-status';
+import { TCourse } from './course.interface';
 
 const createCourseIntoDB = async (payload: TCourse) => {
   const result = await Course.create(payload);
@@ -131,10 +131,57 @@ const deleteCourseFromDB = async (id: string) => {
   return result;
 };
 
+const assignFacultiesWithCourseIntoDB = async (
+  id: string,
+  faculties: Types.ObjectId[],
+) => {
+  if (!faculties || faculties.length === 0) {
+    throw new AppError(
+      status.BAD_REQUEST,
+      'At least one faculty must be provided',
+    );
+  }
+
+  // Step 1: Find existing document by course
+  const existing = await CourseFaculty.findOne({ course: id }).lean();
+
+  // Step 2: Check for duplicates if the document exists
+  if (existing) {
+    const duplicateFaculties = faculties.filter((fid) =>
+      existing.faculties.some((existingId) =>
+        new Types.ObjectId(existingId?.toString()).equals(fid),
+      ),
+    );
+
+    if (duplicateFaculties.length > 0) {
+      throw new AppError(
+        status.CONFLICT,
+        `Faculty already assigned: ${duplicateFaculties.join(', ')}`,
+      );
+    }
+  }
+
+  // Step 3: Upsert the document (create if doesn't exist, update if exists)
+  const result = await CourseFaculty.findByIdAndUpdate(
+    id,
+    {
+      course: id,
+      $addToSet: { faculties: { $each: faculties ?? [] } },
+    },
+    {
+      upsert: true,
+      new: true,
+    },
+  );
+
+  return result;
+};
+
 export const CourseServices = {
   createCourseIntoDB,
   getAllCoursesFromDB,
   getSingleCourseFromDB,
   updateCourseIntoDB,
   deleteCourseFromDB,
+  assignFacultiesWithCourseIntoDB,
 };
