@@ -4,8 +4,9 @@ import { TCourse, TPreRequisiteCourses } from './course.interface';
 const preRequisiteCoursesSchema = new Schema<TPreRequisiteCourses>({
   course: {
     type: Schema.Types.ObjectId,
+    ref: 'Course',
   },
-  idDeleted: {
+  isDeleted: {
     type: Boolean,
     default: false,
   },
@@ -14,7 +15,7 @@ const preRequisiteCoursesSchema = new Schema<TPreRequisiteCourses>({
 const courseSchema = new Schema<TCourse>({
   title: {
     type: String,
-    unique: [true, '{VALUE} is already exists!'],
+    unique: [true, 'Title is already exists!'],
     trim: true,
     required: [true, 'Course title is required'],
   },
@@ -34,6 +35,26 @@ const courseSchema = new Schema<TCourse>({
     required: [true, 'Course credits is required'],
   },
   preRequisiteCourses: [preRequisiteCoursesSchema],
+  isDeleted: {
+    type: Boolean,
+    default: false,
+  },
+});
+
+// Query middleware
+courseSchema.pre('find', function (next) {
+  this.find({ isDeleted: { $ne: true } });
+  next();
+});
+
+courseSchema.pre('findOne', function (next) {
+  this.find({ isDeleted: { $ne: true } });
+  next();
+});
+
+courseSchema.pre('aggregate', function (next) {
+  this.pipeline().unshift({ $match: { isDeleted: { $ne: true } } });
+  next();
 });
 
 export const Course = model<TCourse>('Course', courseSchema);
