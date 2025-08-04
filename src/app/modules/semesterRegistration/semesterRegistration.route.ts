@@ -13,4 +13,4 @@ router.post(
   SemesterRegistrationControllers.createSemesterRegistration,
 );
 
-export const CourseRoutes = router;
+export const SemesterRegistrations = router;
