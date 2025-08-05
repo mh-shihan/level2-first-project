@@ -53,3 +53,13 @@ export const updateUserNameValidationSchema = z.object({
     })
     .optional(),
 });
+
+export const dateTime = z.string().refine(
+  (val) => {
+    return !isNaN(Date.parse(val)); // Checks if JS can parse the date
+  },
+  {
+    message:
+      'Must be a valid ISO 8601 date-time string (e.g., 2025-08-05T14:30:00Z)',
+  },
+);
