@@ -131,6 +131,18 @@ const deleteCourseFromDB = async (id: string) => {
   return result;
 };
 
+const getAllCourseFacultiesFromDB = async () => {
+  const result = await CourseFaculty.find()
+    .populate({
+      path: 'course',
+      populate: {
+        path: 'preRequisiteCourses.course', // Adjust this if your schema supports it
+      },
+    })
+    .populate('faculties');
+  return result;
+};
+
 const assignFacultiesWithCourseIntoDB = async (
   id: string,
   faculties: string[],
@@ -198,6 +210,7 @@ export const CourseServices = {
   getSingleCourseFromDB,
   updateCourseIntoDB,
   deleteCourseFromDB,
+  getAllCourseFacultiesFromDB,
   assignFacultiesWithCourseIntoDB,
   removeFacultiesFromCourseFromDB,
 };

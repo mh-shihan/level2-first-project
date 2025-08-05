@@ -13,6 +13,8 @@ router.post(
 
 router.get('/', CourseControllers.getAllCourses);
 
+router.get('/all-course-faculties', CourseControllers.getAllCourseFaculties);
+
 router.get('/:id', CourseControllers.getSingleCourse);
 
 router.delete('/:id', CourseControllers.deleteCourse);
