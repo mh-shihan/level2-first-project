@@ -101,7 +101,7 @@ const removeFacultiesFromCourse = catchAsync(async (req, res) => {
   sendResponse(res, {
     statusCode: status.OK,
     success: true,
-    message: 'Remove Course faculties successfully!',
+    message: 'Course faculties are removed successfully!',
     data: result,
   });
 });
