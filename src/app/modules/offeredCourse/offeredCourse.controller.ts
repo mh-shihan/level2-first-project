@@ -40,12 +40,18 @@ const getSingleOfferedCourses = catchAsync(
 );
 
 const updateOfferedCourse = catchAsync(async (req: Request, res: Response) => {
-  //   sendResponse(res, {
-  //     statusCode: httpStatus.OK,
-  //     success: true,
-  //     message: 'OfferedCourse updated successfully',
-  //     data: result,
-  //   });
+  const { id } = req.params;
+  const result = await OfferedCourseServices.updateOfferedCourseIntoDB(
+    id,
+    req.body,
+  );
+
+  sendResponse(res, {
+    statusCode: status.OK,
+    success: true,
+    message: 'OfferedCourse updated successfully',
+    data: result,
+  });
 });
 
 const deleteOfferedCourseFromDB = catchAsync(

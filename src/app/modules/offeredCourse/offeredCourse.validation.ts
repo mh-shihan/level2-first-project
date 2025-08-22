@@ -1,9 +1,10 @@
 import { z } from 'zod/v4';
-import {
-  Days,
-  invalidTimeFormat,
-  isValid24HourTime,
-} from './offeredCourse.constant';
+import { Days, invalidTimeFormat } from './offeredCourse.constant';
+import { isValid24HourTime } from './offeredCourse.utils';
+
+const timeStringSchema = z
+  .string()
+  .refine(isValid24HourTime, { message: invalidTimeFormat }); // HH: MM   00-23: 00-59
 
 const createOfferedCourseValidationSchema = z.object({
   body: z
@@ -16,12 +17,8 @@ const createOfferedCourseValidationSchema = z.object({
       section: z.number(),
       maxCapacity: z.number(),
       days: z.array(z.enum([...Days])),
-      startTime: z
-        .string()
-        .refine(isValid24HourTime, { message: invalidTimeFormat }), // HH: MM   00-23: 00-59
-      endTime: z
-        .string()
-        .refine(isValid24HourTime, { message: invalidTimeFormat }),
+      startTime: timeStringSchema,
+      endTime: timeStringSchema,
     })
     .refine(
       ({ startTime, endTime }) => {
@@ -40,8 +37,8 @@ const updateOfferedCourseValidationSchema = z.object({
     faculty: z.string(),
     maxCapacity: z.number(),
     days: z.array(z.enum([...Days])),
-    startTime: z.string(), // HH: MM   00-23: 00-59
-    endTime: z.string(),
+    startTime: timeStringSchema,
+    endTime: timeStringSchema,
   }),
 });
 
