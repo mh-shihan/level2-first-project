@@ -7,9 +7,8 @@ const checkDocumentExistsById = async <T>(
   id: Types.ObjectId,
   message: string,
 ) => {
-  const isExists = await model.findById(id);
   const document = await model.findById(id);
-  if (!isExists) {
+  if (!document) {
     throw new AppError(status.NOT_FOUND, `${message} not found!`);
   }
   return document;
