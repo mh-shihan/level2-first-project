@@ -1,17 +1,13 @@
 import status from 'http-status';
-import { Model } from 'mongoose';
 import AppError from '../../errors/AppError';
+import { User } from '../user/user.model';
 
-const checkDocumentExistsByCustomId = async <T>(
-  model: Model<T>,
-  id: string,
-  message: string,
-) => {
-  const document = await model.findOne({ id });
-  if (!document) {
-    throw new AppError(status.NOT_FOUND, `${message} not found!`);
+const isUserExists = async (id: string) => {
+  const user = await User.isUserExistsByCustomId(id);
+  if (!user) {
+    throw new AppError(status.NOT_FOUND, `This User is not found!`);
   }
-  return document;
+  return user;
 };
 
-export default checkDocumentExistsByCustomId;
+export default isUserExists;
