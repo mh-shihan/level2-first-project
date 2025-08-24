@@ -6,6 +6,7 @@ import jwt, { JwtPayload } from 'jsonwebtoken';
 import config from '../config';
 import { TUserRole } from '../modules/user/user.interface';
 import isUserExists from '../modules/auth/auth.utils';
+import { User } from '../modules/user/user.model';
 
 const auth = (...requiredRoles: TUserRole[]) => {
   return catchAsync(async (req: Request, res: Response, next: NextFunction) => {
@@ -37,6 +38,19 @@ const auth = (...requiredRoles: TUserRole[]) => {
 
     if (userStatus === 'blocked') {
       throw new AppError(status.FORBIDDEN, 'This user is blocked! !');
+    }
+
+    if (
+      user.passwordChangedAt &&
+      User.isJWTIssuedBeforePasswordChanged(
+        user.passwordChangedAt,
+        iat as number,
+      )
+    ) {
+      throw new AppError(
+        status.UNAUTHORIZED,
+        '----You are not authorized!--------',
+      );
     }
 
     if (requiredRoles && !requiredRoles.includes(role)) {
