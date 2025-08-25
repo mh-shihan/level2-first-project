@@ -5,7 +5,7 @@ import status from 'http-status';
 import jwt, { JwtPayload } from 'jsonwebtoken';
 import config from '../config';
 import { TUserRole } from '../modules/user/user.interface';
-import isUserExists from '../modules/auth/auth.utils';
+import { isUserExistsWithErrorMessageByCustomId } from '../modules/auth/auth.utils';
 import { User } from '../modules/user/user.model';
 
 const auth = (...requiredRoles: TUserRole[]) => {
@@ -24,7 +24,7 @@ const auth = (...requiredRoles: TUserRole[]) => {
 
     const { role, userId, iat } = decoded;
 
-    const user = await isUserExists(userId);
+    const user = await isUserExistsWithErrorMessageByCustomId(userId);
 
     //   checking if the user is already deleted
     const isDeleted = user?.isDeleted;

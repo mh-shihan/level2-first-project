@@ -51,6 +51,7 @@ npm install @types/node @types/express @types/cors --save-dev
 ## Setup dotenv config
 
 Create a `app\config\index.ts` file in the src directory of your project:
+
 ```typescript
 import dotenv from 'dotenv';
 import path from 'path';
@@ -67,6 +68,7 @@ export default {
 ## Server Set Up
 
 Create a `\server.ts` file in the src directory of your project:
+
 ```typescript
 import app from './app';
 import mongoose from 'mongoose';
@@ -132,15 +134,21 @@ npm install -D --save @types/bcrypt
 ```
 
 # Deployment
-##  2 Ways to deploy
+
+## 2 Ways to deploy
+
 ### 1. Vercel CLI
-First, build the project using 
+
+First, build the project using
+
 ```bash
 npm run build
 or
 tsc
 ```
- Then, create a file at the root called `vercel.json`, write the following code
+
+Then, create a file at the root called `vercel.json`, write the following code
+
 ```json
 {
   "version": 2,
@@ -158,20 +166,33 @@ tsc
   ]
 }
 ```
+
 After that, install Vercel (If already installed, then no need to install
+
 ```bash
 npm i -g vercel
 ```
+
 Check Vercel version
+
 ```bash
 vercel -v
 ```
+
 For Vercel Login
+
 ```bash
 vercel login
 ```
+
 Now, it's mandatory
+
 ```bash
 vercel --prod
 ```
+
+```node
+require('crypto').randomBytes(64).toString('hex');
+```
+
 #### 2. GitHub
